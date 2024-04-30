@@ -23,20 +23,16 @@ export interface JobData {
   styleUrl: './fav-job.component.css'
 })
 export class FavJobComponent implements OnInit {
-  noPreferredJob: string | undefined;
+  noPreferredJob: string = 'No favorite job is selected here!';
   isPreferred: boolean = false;
+  preferredJobList: JobData[] = [];
 
   constructor(private dataService: Logic,
     private router: Router){}
-    preferredJobList: JobData[] = [];
 
- ngOnInit(): void {
-    if(this.dataService.preferredJob.length !== 0) {
-      this.isPreferred = true;
-      this.preferredJobList = this.dataService.preferredJob;
-    } else {
-      this.isPreferred = false;
-      this.noPreferredJob = 'No favorite selected'
+  ngOnInit(): void {
+    if (localStorage['favJobList']) {
+      this.preferredJobList = JSON.parse(localStorage.getItem('favJobList') || '{}');
     }
   }
 
